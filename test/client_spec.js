@@ -3,9 +3,10 @@ import AWS from 'mock-aws';
 
 describe('Notification', () => {
   describe('#registerEndpoint', () => {
-    it('', () => {
+    beforeEach(() => {
       AWS.mock('SNS', 'createPlatformEndpoint', { EndpointArn: 'arn' });
-
+    });
+    it('returns endpoint for device token', () => {
       let sns = new AWS.SNS();
       let client = new Notification(sns, {
         platforms: {
