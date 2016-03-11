@@ -29,7 +29,7 @@ describe('Notification', () => {
     beforeEach(() => {
       AWS.mock(SERVICE_NAME, 'deleteEndpoint', null);
     });
-    it('returns endpoint for device token', () => {
+    it('returns unregister endpoint arn', () => {
       let sns = new AWS.SNS();
       let client = new Notification(sns, {
         platforms: {
