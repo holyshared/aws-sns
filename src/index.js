@@ -1,6 +1,6 @@
 import { Promise } from 'bluebird';
 
-export default class Notification {
+export default class PushNotificationClient {
   constructor(client, options) {
     this.client = client;
     this.options = options || {};
