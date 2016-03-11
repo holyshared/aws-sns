@@ -25,4 +25,24 @@ describe('Notification', () => {
       });
     })
   });
+  describe('#unregisterEndpoint', () => {
+    beforeEach(() => {
+      AWS.mock(SERVICE_NAME, 'deleteEndpoint', null);
+    });
+    it('returns endpoint for device token', () => {
+      let sns = new AWS.SNS();
+      let client = new Notification(sns, {
+        platforms: {
+          ios: 'platform_application_arn'
+        }
+      });
+
+      return client.unregisterEndpoint('endpoint_arn').then((endpoint) => {
+        assert.equal(endpoint, 'endpoint_arn');
+      }).finally(function() {
+        AWS.restore(SERVICE_NAME, 'deleteEndpoint');
+      });
+    })
+  });
+
 });
