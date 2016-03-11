@@ -45,4 +45,52 @@ describe('Notification', () => {
     })
   });
 
+  describe('#publishToEndpoint', () => {
+    beforeEach(() => {
+      AWS.mock(SERVICE_NAME, 'publish', { MessageId: 'message_id' });
+    });
+    it('returns published message identity', () => {
+      let sns = new AWS.SNS();
+      let client = new Notification(sns, {
+        platforms: {
+          ios: 'platform_application_arn'
+        }
+      });
+      let params = {
+        message: 'ok',
+        endpoint: 'endpoint_arn'
+      };
+
+      return client.publishToEndpoint(params).then((messageId) => {
+        assert.equal(messageId, 'message_id');
+      }).finally(function() {
+        AWS.restore(SERVICE_NAME, 'publish');
+      });
+    })
+  });
+
+  describe('#publishToTopic', () => {
+    beforeEach(() => {
+      AWS.mock(SERVICE_NAME, 'publish', { MessageId: 'message_id' });
+    });
+    it('returns published message identity', () => {
+      let sns = new AWS.SNS();
+      let client = new Notification(sns, {
+        platforms: {
+          ios: 'platform_application_arn'
+        }
+      });
+      let params = {
+        message: 'ok',
+        endpoint: 'topic_arn'
+      };
+
+      return client.publishToTopic(params).then((messageId) => {
+        assert.equal(messageId, 'message_id');
+      }).finally(function() {
+        AWS.restore(SERVICE_NAME, 'publish');
+      });
+    })
+  });
+
 });
