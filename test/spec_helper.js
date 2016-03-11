@@ -1,3 +1,14 @@
-import assert from 'power-assert';
+import Mock from 'mock-aws';
+import Notification from '../lib';
 
-global.assert = assert;
+export const SERVICE_NAME = 'SNS';
+export const AWS = Mock;
+export const clientMock = () => {
+  let sns = new AWS.SNS();
+  let client = new Notification(sns, {
+    platforms: {
+      ios: 'platform_application_arn'
+    }
+  });
+  return client;
+}

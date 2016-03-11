@@ -1,7 +1,5 @@
-import Notification from '../lib';
-import AWS from 'mock-aws';
-
-const SERVICE_NAME = 'SNS';
+import assert from 'power-assert';
+import { AWS, clientMock, SERVICE_NAME } from './spec_helper';
 
 describe('Notification', () => {
   describe('#registerEndpoint', () => {
@@ -9,12 +7,7 @@ describe('Notification', () => {
       AWS.mock(SERVICE_NAME, 'createPlatformEndpoint', { EndpointArn: 'arn' });
     });
     it('should be rgister endpoint', () => {
-      let sns = new AWS.SNS();
-      let client = new Notification(sns, {
-        platforms: {
-          ios: 'platform_application_arn'
-        }
-      });
+      let client = clientMock();
 
       return client.registerEndpoint({
         deviceToken: 'device token'
@@ -30,12 +23,7 @@ describe('Notification', () => {
       AWS.mock(SERVICE_NAME, 'deleteEndpoint', null);
     });
     it('should be unrgister endpoint', () => {
-      let sns = new AWS.SNS();
-      let client = new Notification(sns, {
-        platforms: {
-          ios: 'platform_application_arn'
-        }
-      });
+      let client = clientMock();
 
       return client.unregisterEndpoint('endpoint_arn').then((endpoint) => {
         assert.equal(endpoint, 'endpoint_arn');
@@ -50,12 +38,7 @@ describe('Notification', () => {
       AWS.mock(SERVICE_NAME, 'publish', { MessageId: 'message_id' });
     });
     it('should be published message', () => {
-      let sns = new AWS.SNS();
-      let client = new Notification(sns, {
-        platforms: {
-          ios: 'platform_application_arn'
-        }
-      });
+      let client = clientMock();
       let params = {
         message: 'ok',
         endpoint: 'endpoint_arn'
@@ -74,12 +57,7 @@ describe('Notification', () => {
       AWS.mock(SERVICE_NAME, 'publish', { MessageId: 'message_id' });
     });
     it('should be published message', () => {
-      let sns = new AWS.SNS();
-      let client = new Notification(sns, {
-        platforms: {
-          ios: 'platform_application_arn'
-        }
-      });
+      let client = clientMock();
       let params = {
         message: 'ok',
         endpoint: 'topic_arn'
@@ -98,12 +76,7 @@ describe('Notification', () => {
       AWS.mock(SERVICE_NAME, 'createTopic', { TopicArn: 'topic_arn' });
     });
     it('should be register topic', () => {
-      let sns = new AWS.SNS();
-      let client = new Notification(sns, {
-        platforms: {
-          ios: 'platform_application_arn'
-        }
-      });
+      let client = clientMock();
 
       return client.registerTopic('topic').then((endpoint) => {
         assert.equal(endpoint, 'topic_arn');
@@ -118,12 +91,7 @@ describe('Notification', () => {
       AWS.mock(SERVICE_NAME, 'subscribe', { SubscriptionArn: 'subscription_arn' });
     });
     it('should be subscribe topic', () => {
-      let sns = new AWS.SNS();
-      let client = new Notification(sns, {
-        platforms: {
-          ios: 'platform_application_arn'
-        }
-      });
+      let client = clientMock();
       let params = {
         topic: 'topic',
         endpoint: 'topic_sbscribe_endpoint'
@@ -142,12 +110,7 @@ describe('Notification', () => {
       AWS.mock(SERVICE_NAME, 'unsubscribe', null);
     });
     it('should be unsubscribe topic', () => {
-      let sns = new AWS.SNS();
-      let client = new Notification(sns, {
-        platforms: {
-          ios: 'platform_application_arn'
-        }
-      });
+      let client = clientMock();
 
       return client.unsubscribeTopic('subscription_arn').then((subscription) => {
         assert.equal(subscription, 'subscription_arn');
@@ -162,12 +125,7 @@ describe('Notification', () => {
       AWS.mock(SERVICE_NAME, 'setEndpointAttributes', null);
     });
     it('should be replace device token', () => {
-      let sns = new AWS.SNS();
-      let client = new Notification(sns, {
-        platforms: {
-          ios: 'platform_application_arn'
-        }
-      });
+      let client = clientMock();
 
       return client.replaceDeviceToken('endpoint', 'new_device_token').then((endpoint) => {
         assert.equal(endpoint, 'endpoint');
