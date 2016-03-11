@@ -1,10 +1,12 @@
 import Notification from '../lib';
 import AWS from 'mock-aws';
 
+const SERVICE_NAME = 'SNS';
+
 describe('Notification', () => {
   describe('#registerEndpoint', () => {
     beforeEach(() => {
-      AWS.mock('SNS', 'createPlatformEndpoint', { EndpointArn: 'arn' });
+      AWS.mock(SERVICE_NAME, 'createPlatformEndpoint', { EndpointArn: 'arn' });
     });
     it('returns endpoint for device token', () => {
       let sns = new AWS.SNS();
@@ -19,7 +21,7 @@ describe('Notification', () => {
       }).then((endpoint) => {
         assert.equal(endpoint, 'arn');
       }).finally(function() {
-        AWS.restore('SNS', 'createPlatformEndpoint');
+        AWS.restore(SERVICE_NAME, 'createPlatformEndpoint');
       });
     })
   });
