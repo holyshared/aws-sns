@@ -107,7 +107,7 @@ export default class Notification {
         if (err) {
           return reject(err);
         }
-        resolve();
+        resolve(arn);
       });
     });
   }
@@ -124,7 +124,7 @@ export default class Notification {
         if (err) {
           return reject(err);
         }
-        resolve();
+        resolve(endpoint);
       });
     });
   }
